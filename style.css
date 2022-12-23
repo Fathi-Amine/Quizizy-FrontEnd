@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+}
+
+.correct {
+  background-color: green;
+}
+
+.false {
+  background-color: red;
+}
+
+.flee {
+  cursor: not-allowed;
+}/*# sourceMappingURL=style.css.map */
