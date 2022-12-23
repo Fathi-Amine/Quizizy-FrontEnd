@@ -4,7 +4,6 @@ const answersContainer = document.querySelector(".answers-container");
 const content = document.querySelector(".wrapper")
 const time = document.querySelector(".time");
 let shuffledQuestions = questions.sort(()=>Math.random() - 0.5);
-console.log(shuffledQuestions)
 let questionIndex = 0;
 let timeInSeconds = 0;
 let interval = 0;
@@ -32,32 +31,50 @@ function shuffleArray(){
     questionIndex++;
 }
 
+function highlightSelected(element){
+    const Btns = document.querySelectorAll('.answerBtn');
+    for(let i = 0; i< Btns.length;i++){
+        Btns[i].classList.remove('selected');
+    }
+    element.classList.add('selected')
+}
+
 function showQuestion(randomquestion){
     questionHeader.innerText = randomquestion.question;
     answersContainer.innerHTML = '';
     randomquestion.choices.forEach(choice=> {
         const button = document.createElement('button');
+        button.classList.add('answerBtn')
         button.innerText = choice.answer;
         answersContainer.appendChild(button);
         if(choice.value === randomquestion.correctValue){
             button.setAttribute("data-correctValue", "");
         }
-        button.addEventListener("click", function(e){
-            let answered = {};
-            const userChoice = e.target;
+        let userChoice = false;
+        button.addEventListener("click", function(){
+            highlightSelected(button);
+            userChoice = button;
             console.log(userChoice)
-            console.log()
-            if(userChoice.hasAttribute("data-correctValue")){
-                userChoice.classList.add('correct');
-            }else{
-                userChoice.classList.add('false');
-                answered.choice = userChoice.innerText;
-                answered.ques = randomquestion.id;
-                sessionAnswers.push(answered)
-                console.log(sessionAnswers)
-            }
-            
+            // button.classList.toggle('selected')
         })
+        let answered = {};
+        //     let answered = {};
+        //     const userChoice = e.target;
+        //     console.log(userChoice)
+        // 
+        if(userChoice == false){
+            
+        }if(userChoice.hasAttribute("data-correctValue")){
+        userChoice.classList.add('correct');
+        }else{
+            userChoice.classList.add('false');
+            answered.choice = userChoice.innerText;
+            answered.ques = randomquestion.id;
+            sessionAnswers.push(answered)
+            console.log(sessionAnswers)
+        }
+            
+        // })
     });
     // shuffledQuestions.splice(randomquestion,1);
     // clearInterval(interval);

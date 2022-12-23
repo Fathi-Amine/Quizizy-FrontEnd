@@ -12,4 +12,8 @@
 
 .flee {
   cursor: not-allowed;
+}
+
+.selected {
+  background-color: blue;
 }/*# sourceMappingURL=style.css.map */
