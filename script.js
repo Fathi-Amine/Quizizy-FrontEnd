@@ -4,6 +4,7 @@ const startBtn = document.querySelector(".start");
 const answersContainer = document.querySelector(".answers-container");
 const content = document.querySelector(".wrapper")
 const time = document.querySelector(".time");
+const resBtn = document.querySelector('.result')
 var selected;
 let timeOut;
 let shuffledQuestions = questions.sort(()=>Math.random() - 0.5);
@@ -15,22 +16,20 @@ function startQuiz(){
     startBtn.style.display = "none";
     // showQuestion(shuffeledQuestions)
     showQuestion(shuffledQuestions[questionIndex]);
-    questionIndex++;
+    // questionIndex++;
 }
 
 function displayQuestions(){ 
-    if(questionIndex <= shuffledQuestions.length-1){
-        showCorrectAnswer()
-        clearTimeout(timeOut)
-        timeOut = setTimeout(()=>showQuestion(shuffledQuestions[questionIndex]),3000);
-    }else{
-        startBtn.innerText = "Restart";
-        startBtn.style.display = "block"
-        nextBtn.style.display = "none"
-    }
+    nextBtn.style.display = "none"
+    
+    showCorrectAnswer();
+    clearTimeout(timeOut)
+    timeOut = setTimeout(()=>showQuestion(shuffledQuestions[questionIndex]),3000);
+    questionIndex++;
     // console.log(selected)
     console.log(sessionAnswers)
-    questionIndex++;
+    console.log(shuffledQuestions);
+    console.log(questionIndex)
 }
 
 function highlightSelected(element, isCorrect){
@@ -40,25 +39,38 @@ function highlightSelected(element, isCorrect){
         Btns[i].classList.remove('selected');
     }
     element.classList.add('selected');
+    userChoice.id = selected.parentElement.previousElementSibling.dataset.quesId;
     userChoice.answer = element.innerText;
     userChoice.isItCorrect = isCorrect;
     selected=element;
-    console.log(selected)
 }
 
 function showQuestion(quizQuestion){
-    questionHeader.innerText = quizQuestion.question;
-    answersContainer.innerHTML = "";
-    quizQuestion.choices.forEach(choice => {
+    
+    if(questionIndex < shuffledQuestions.length){
+        questionHeader.innerText = quizQuestion.question;
+        questionHeader.dataset.quesId = quizQuestion.id
+        answersContainer.innerHTML = "";
+        quizQuestion.choices.forEach(choice => {
         answersContainer.innerHTML += `
         <button type="button" class="answerBtn" data-correct=${(choice.value == quizQuestion.correctValue) ? true : false} onclick='highlightSelected(this, this.dataset.correct)'>${choice.answer}</>
         `
     });
-    userChoice = {answer:"No answer is selected", isItCorrect: "false"};
+    }else{
+        resBtn.style.display = "block"
+    }
+    userChoice = {id:quizQuestion.id, answer:"No answer is selected", isItCorrect: "false"};
+    nextBtn.style.display = "block"
 }
 
 function showCorrectAnswer(){
     document.querySelectorAll('.answerBtn').forEach((btn)=>{
+        
+        if(btn.dataset.correct == "true"){
+            btn.classList.add('correct')
+        }
+    })
+    if (selected != undefined) {
         if(selected.dataset.correct == "true"){
             selected.classList.remove('selected')
             selected.classList.add('correct')
@@ -66,11 +78,8 @@ function showCorrectAnswer(){
             selected.classList.remove('selected')
             selected.classList.add('false')
         }
+    }
 
-        if(btn.dataset.correct == "true"){
-            btn.classList.add('correct')
-        }
-    })
     sessionAnswers.push(userChoice);
 }
 
