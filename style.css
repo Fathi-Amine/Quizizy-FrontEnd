@@ -16,4 +16,8 @@
 
 .selected {
   background-color: blue;
+}
+
+.next {
+  display: none;
 }/*# sourceMappingURL=style.css.map */

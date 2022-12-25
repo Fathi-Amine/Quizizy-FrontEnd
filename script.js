@@ -1,89 +1,78 @@
 const questionHeader = document.querySelector(".question");
 const nextBtn = document.querySelector(".next");
+const startBtn = document.querySelector(".start");
 const answersContainer = document.querySelector(".answers-container");
 const content = document.querySelector(".wrapper")
 const time = document.querySelector(".time");
+var selected;
+let timeOut;
 let shuffledQuestions = questions.sort(()=>Math.random() - 0.5);
 let questionIndex = 0;
-let timeInSeconds = 0;
-let interval = 0;
+let userChoice = {}
 let sessionAnswers = [];
-function countDown(){
-    if(timeInSeconds === 30){
-        clearInterval(interval);
-        nextBtn.click();
-    }else{
-        timeInSeconds++;
-        time.innerText = timeInSeconds;
-    }
-}
-// setInterval(countdown,1000);
-function shuffleArray(){
-    if(questionIndex <= shuffledQuestions.length-1){
-        showQuestion(shuffledQuestions[questionIndex]);
-    }else{
-        content.style.display = "none"
-        document.body.style.backgroundColor = "red"
-    }
-    timeInSeconds = 0
-    clearInterval(interval);
-    interval = setInterval(countDown, 1000);
+function startQuiz(){
+    nextBtn.style.display = "block";
+    startBtn.style.display = "none";
+    // showQuestion(shuffeledQuestions)
+    showQuestion(shuffledQuestions[questionIndex]);
     questionIndex++;
 }
 
-function highlightSelected(element){
+function displayQuestions(){ 
+    if(questionIndex <= shuffledQuestions.length-1){
+        showCorrectAnswer()
+        clearTimeout(timeOut)
+        timeOut = setTimeout(()=>showQuestion(shuffledQuestions[questionIndex]),3000);
+    }else{
+        startBtn.innerText = "Restart";
+        startBtn.style.display = "block"
+        nextBtn.style.display = "none"
+    }
+    // console.log(selected)
+    console.log(sessionAnswers)
+    questionIndex++;
+}
+
+function highlightSelected(element, isCorrect){
+    userChoice = {};
     const Btns = document.querySelectorAll('.answerBtn');
     for(let i = 0; i< Btns.length;i++){
         Btns[i].classList.remove('selected');
     }
-    element.classList.add('selected')
+    element.classList.add('selected');
+    userChoice.answer = element.innerText;
+    userChoice.isItCorrect = isCorrect;
+    selected=element;
+    console.log(selected)
 }
 
-function showQuestion(randomquestion){
-    questionHeader.innerText = randomquestion.question;
-    answersContainer.innerHTML = '';
-    randomquestion.choices.forEach(choice=> {
-        const button = document.createElement('button');
-        button.classList.add('answerBtn')
-        button.innerText = choice.answer;
-        answersContainer.appendChild(button);
-        if(choice.value === randomquestion.correctValue){
-            button.setAttribute("data-correctValue", "");
-        }
-        let userChoice = false;
-        button.addEventListener("click", function(){
-            highlightSelected(button);
-            userChoice = button;
-            console.log(userChoice)
-            // button.classList.toggle('selected')
-        })
-        let answered = {};
-        //     let answered = {};
-        //     const userChoice = e.target;
-        //     console.log(userChoice)
-        // 
-        if(userChoice == false){
-            
-        }if(userChoice.hasAttribute("data-correctValue")){
-        userChoice.classList.add('correct');
-        }else{
-            userChoice.classList.add('false');
-            answered.choice = userChoice.innerText;
-            answered.ques = randomquestion.id;
-            sessionAnswers.push(answered)
-            console.log(sessionAnswers)
-        }
-            
-        // })
+function showQuestion(quizQuestion){
+    questionHeader.innerText = quizQuestion.question;
+    answersContainer.innerHTML = "";
+    quizQuestion.choices.forEach(choice => {
+        answersContainer.innerHTML += `
+        <button type="button" class="answerBtn" data-correct=${(choice.value == quizQuestion.correctValue) ? true : false} onclick='highlightSelected(this, this.dataset.correct)'>${choice.answer}</>
+        `
     });
-    // shuffledQuestions.splice(randomquestion,1);
-    // clearInterval(interval);
-    // interval = setInterval(countDown, 1000);
-    console.log(shuffledQuestions.length)
+    userChoice = {answer:"No answer is selected", isItCorrect: "false"};
 }
 
+function showCorrectAnswer(){
+    document.querySelectorAll('.answerBtn').forEach((btn)=>{
+        if(selected.dataset.correct == "true"){
+            selected.classList.remove('selected')
+            selected.classList.add('correct')
+        }else{
+            selected.classList.remove('selected')
+            selected.classList.add('false')
+        }
 
+        if(btn.dataset.correct == "true"){
+            btn.classList.add('correct')
+        }
+    })
+    sessionAnswers.push(userChoice);
+}
 
-// shuffleArray()
-nextBtn.addEventListener('click', shuffleArray);
-console.log()
+startBtn.addEventListener("click", startQuiz)
+nextBtn.addEventListener("click", displayQuestions)
