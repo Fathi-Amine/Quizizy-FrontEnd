@@ -6,13 +6,28 @@ const answersContainer = document.querySelector(".answers-container");
 const content = document.querySelector(".wrapper")
 const time = document.querySelector(".time");
 const resBtn = document.querySelector('.result');
-const resultBoard = document.querySelector('.resultBoard')
+const resultBoard = document.querySelector('.resultBoard');
+const progBar = document.querySelector(".progBar")
 var selected;
 let timeOut;
 let shuffledQuestions = questions.sort(()=>Math.random() - 0.5);
 let questionIndex = 0;
 let userChoice = {}
 let sessionAnswers = [];
+let timeInSeconds = 0;
+let interval = 0;
+
+
+function countDown(){
+    if(timeInSeconds === 30){
+        clearInterval(interval);
+        nextBtn.click();
+    }else{
+        time.style.display = "inline-block"
+        timeInSeconds++;
+        time.innerText = timeInSeconds;
+    }
+}
 function startQuiz(){
     nextBtn.style.display = "block";
     startBtn.style.display = "none";
@@ -48,8 +63,11 @@ function highlightSelected(element, isCorrect){
 }
 
 function showQuestion(quizQuestion){
-    
+    showProg();
     if(questionIndex < shuffledQuestions.length){
+        timeInSeconds = 0
+        clearInterval(interval);
+        interval = setInterval(countDown, 1000);
         userChoice = {id:quizQuestion.id, answer:"No answer is selected", isItCorrect: "false"};
         questionHeader.innerText = quizQuestion.question;
         questionHeader.dataset.quesId = quizQuestion.id
@@ -64,9 +82,12 @@ function showQuestion(quizQuestion){
         quizContainer.style.display = "none"
         resBtn.style.display = "block"
     }
+    
 }
 
 function showCorrectAnswer(){
+    time.style.display = "none"
+    clearInterval(interval);
     document.querySelectorAll('.answerBtn').forEach((btn)=>{
         
         if(btn.dataset.correct == "true"){
@@ -98,16 +119,27 @@ function showResults(){
         const questionBlock = document.createElement('div');
         const question = document.createElement('h3');
         const answersBlock = document.createElement('div');
+        const noAnswerSpan = document.createElement('span');
         const matchingQuestion = questions.find((ques)=> ques.id == userAnswer.id);
         const correctAnswer = matchingQuestion.choices.find((rightAnswer)=> matchingQuestion.correctValue == rightAnswer.value);
         console.log(correctAnswer);
         question.innerText = `${matchingQuestion.question}`;
         matchingQuestion.choices.forEach((choice)=>{
             const choiceBtn = document.createElement("p");
+            choiceBtn.innerText = choice.answer;
+
             if (userAnswer.answer == choice.answer) {
                 if(userAnswer.isItCorrect == "false"){
-                    choiceBtn.innerText = choice.answer;
-                }  
+                    choiceBtn.classList.add('false')
+                }else{
+                    choiceBtn.classList.add('correct')
+                }
+            }else if(userAnswer.answer == "No answer is selected"){
+                noAnswerSpan.innerText = "You have not answered this question";
+                questionBlock.appendChild(noAnswerSpan)
+            }
+            if(correctAnswer.answer == choice.answer){
+                choiceBtn.classList.add('correct')
             }
             answersBlock.appendChild(choiceBtn)
         })
@@ -115,6 +147,10 @@ function showResults(){
         resultBoard.appendChild(questionBlock)
         resultBoard.appendChild(answersBlock)
     })
+}
+
+function showProg(){
+    progBar.style.width = `${(200/10)*questionIndex/2}%`;
 }
 startBtn.addEventListener("click", startQuiz)
 nextBtn.addEventListener("click", displayQuestions)

@@ -24,4 +24,18 @@
 
 .result {
   display: none;
+}
+
+.progContainer {
+  width: 200px;
+  border: 1px solid purple;
+  border-radius: 30px;
+  height: 20px;
+}
+
+.progBar {
+  width: 0px;
+  height: 18px;
+  background-color: red;
+  border-radius: 30px;
 }/*# sourceMappingURL=style.css.map */
