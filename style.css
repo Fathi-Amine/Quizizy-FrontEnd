@@ -1,5 +1,145 @@
-* {
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Nunito:wght@400;700&display=swap");
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background-color: #251749;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+ul[id] {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+p,
+h1,
+h3 {
+  margin: 0;
+}
+
+.wrapper {
+  max-width: 37.5rem;
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 0 auto;
+  background-color: #495579;
+}
+.wrapper #progress {
+  position: relative;
+  margin-bottom: 30px;
+}
+.wrapper #progress #progress-bar {
+  position: absolute;
+  background: #263159;
+  height: 5px;
+  width: 0%;
+  top: 45%;
+  left: 0;
+  z-index: 1;
+}
+.wrapper #progress #progress-num {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wrapper #progress #progress-num::before {
+  content: "";
+  background-color: #FFFBEB;
+  position: absolute;
+  top: 45%;
+  left: 0;
+  height: 5px;
+  width: 100%;
+  z-index: 0;
+}
+.wrapper #progress #progress-num .step {
+  border: 3px solid #495579;
+  border-radius: 100%;
+  width: 25px;
+  height: 25px;
+  line-height: 1.5;
+  text-align: center;
+  background-color: #FFFBEB;
+  font-family: sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+}
+.wrapper #progress #progress-num .step.active {
+  border-color: #263159;
+  background-color: #263159;
+  color: #FFFBEB;
+}
+.wrapper .blocks .input-block .input {
+  display: block;
+  width: 75%;
+  height: 40px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 30px;
+}
+.wrapper .blocks .input-block .input:focus {
+  outline: none;
+}
+.wrapper .blocks .input-block .input::-moz-placeholder {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #E7E7E7;
+}
+.wrapper .blocks .input-block .input:-ms-input-placeholder {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #E7E7E7;
+}
+.wrapper .blocks .input-block .input::placeholder {
+  font-family: "Nunito", sans-serif;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #E7E7E7;
+}
+.wrapper .blocks .info-block {
+  max-width: 75%;
+  margin: 1rem auto;
+  background-color: #FFFBEB;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+}
+.wrapper .blocks #rules-list {
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+.wrapper .blocks #rules-list li {
+  font-size: 0.925rem;
+}
+.wrapper .blocks #rules-list li .rule-number {
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+.wrapper .blocks .prog-btns {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .correct {
