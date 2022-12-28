@@ -44,6 +44,27 @@ h3{
     margin:0;
 }
 
+.btn{
+    background: $clr-primary;
+    font-size: 20px;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    box-shadow: 0 7px 0px $clr-tertiary;
+    display: inline-block;
+    transition: all .2s;
+    position: relative;
+    padding: 20px 25px;
+    position: relative;
+    top: 0;
+    cursor: pointer;
+    margin:0 20px;
+    &:active{
+        top: 3px;
+        box-shadow: 0 2px 0px $clr-primaryLight;
+        transition: all .2s;
+    }
+}
 .wrapper{
     max-width: 37.5rem;
     padding: 1rem;
@@ -104,7 +125,6 @@ h3{
     }
     
     .blocks{
-        
         .input-block{
             .input{
                 display: block;
@@ -129,6 +149,7 @@ h3{
 
         .info-block{
             max-width: 75%;
+            display: none;
             margin: 1rem auto;
             background-color: $clr-light;
             border-radius: 12px;
@@ -146,6 +167,14 @@ h3{
                 }
             }
         }
+
+        .start-block{
+            display: none;
+            .start{
+                display: block;
+                margin: 1rem auto;
+            }
+        }
         .prog-btns{
             display: flex;
             justify-content: center;
@@ -153,6 +182,92 @@ h3{
             margin-top: 2rem;
         }
     }
+
+    .quiz-wrapper{
+        .quiz-title{
+            text-align: center;
+            margin-top: 1rem;
+            color: $clr-light;
+        }
+
+        .progAndTimer{
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: space-between;
+            margin-top: 1rem;
+            .progContainer{
+                width: 200px;
+                border: 1px solid $clr-primary;
+                border-radius: 30px;
+                height: 20px;
+                .progBar{
+                    width: 20px;
+                    height: 18px;
+                    background-color: $clr-light;
+                    border-radius: 30px;
+                }
+            }
+            .time{
+                width: 40px;
+                background-color: $clr-light;
+                text-align: center;
+                border-radius: 4px;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+
+        .quizz-container{
+            .question{
+                text-align: center; 
+                color: $clr-light;
+            }
+
+            .answers-container{
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                .answerBtn{
+                    height: 65px;
+                    font-size: 16px;
+                    font-weight: $fw-bold;
+                    line-height: 1.5;
+                    border-radius: 12px;
+                    padding: 10px 15px;
+                    // border: ;
+                }
+            }
+
+            .next-container{
+                margin-top: 1rem;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+    }
+
+    .resultBoard{
+        margin-top: 1.5rem;
+        .result-card{
+            margin-top: 1rem;
+            background-color: $clr-light;
+            padding: 1rem;
+            border-radius: 12px;
+            h3{
+                color: $clr-primary;
+            }
+        }
+
+        .answersBlock{
+            margin-top: 1rem;
+            p{
+                height: 65px;
+                margin-bottom: 0.5rem;
+                border-radius: 12px;
+            }
+        }
+        
+    }
+
 }
 
 
@@ -179,16 +294,16 @@ h3{
     display: none;
 }
 
-.progContainer{
-    width: 200px;
-    border: 1px solid purple;
-    border-radius: 30px;
-    height: 20px;
-}
+// .progContainer{
+//     width: 200px;
+//     border: 1px solid purple;
+//     border-radius: 30px;
+//     height: 20px;
+// }
 
-.progBar{
-    width: 0px;
-    height: 18px;
-    background-color: red;
-    border-radius: 30px;
-}
+// .progBar{
+//     width: 0px;
+//     height: 18px;
+//     background-color: red;
+//     border-radius: 30px;
+// }
